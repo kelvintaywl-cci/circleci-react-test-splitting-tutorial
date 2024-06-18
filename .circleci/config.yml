@@ -1,27 +1,27 @@
 version: 2.1
 
 jobs:
-    build-and-test:
-        docker:
-            - image: cimg/node:16.10
-        parallelism: 2
-        resource_class: small
-        steps:
-            - checkout
-            - run: yarn install
-            - run: mkdir ~/junit
-            - run:
-                name: Test application
-                command: |
-                    TEST=$(circleci tests glob "src/__tests__/*.js")
-                    echo "$TEST" | circleci tests run --command="xargs yarn test" --verbose --split-by=timings
-           - run:
-                command: cp junit.xml ~/junit/
-                when: always
-            - store_test_results:
-                path: ~/junit
+  build-and-test:
+    docker:
+      - image: cimg/node:16.10
+    parallelism: 2
+    resource_class: small
+    steps:
+      - checkout
+      - run: yarn install
+      - run: mkdir ~/junit
+      - run:
+          name: Test application
+          command: |
+            TEST=$(circleci tests glob "src/__tests__/*.js")
+            echo "$TEST" | circleci tests run --command="xargs yarn test" --verbose --split-by=timings
+     - run:
+        command: cp junit.xml ~/junit/
+        when: always
+     - store_test_results:
+        path: ~/junit
 
 workflows:
-    sample:
-      jobs:
-        - build-and-test
+  sample:
+    jobs:
+      - build-and-test
