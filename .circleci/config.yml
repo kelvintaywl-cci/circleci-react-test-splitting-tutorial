@@ -16,6 +16,7 @@ jobs:
             TEST=$(circleci tests glob "src/__tests__/*.js")
             echo "$TEST" | circleci tests run --command="xargs yarn test" --verbose --split-by=timings
      - run:
+        name: copy
         command: cp junit.xml ~/junit/
         when: always
      - store_test_results:
